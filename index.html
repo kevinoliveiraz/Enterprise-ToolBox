@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise ToolBox | Local & Private</title>
+    
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+    <link rel="stylesheet" href="Index.css">
+</head>
+<body>
+
+<header>
+    <h1>Enterprise ToolBox</h1>
+    <div class="search-container">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="toolSearch" placeholder="O que você precisa resolver agora?" onkeyup="searchTools()">
+    </div>
+</header>
+
+<div class="container">
+    <div class="nav-tabs" id="categoryTabs">
+        <div class="tab active" onclick="filterCat('all')">Todos</div>
+        <div class="tab" onclick="filterCat('pdf')">PDF</div>
+        <div class="tab" onclick="filterCat('video')">Vídeo</div>
+        <div class="tab" onclick="filterCat('text')">Texto</div>
+        <div class="tab" onclick="filterCat('crypto')">Cripto & Segurança</div>
+        <div class="tab" onclick="filterCat('web')">Web Dev</div>
+    </div>
+
+    <div id="mainGrid" class="tools-grid">
+        <div class="tool-card" data-cat="text" onclick="openTool('barcode-gen')">
+            <i data-lucide="barcode"></i>
+            <h3>Gerar Barcode</h3>
+        </div>
+
+        <div class="tool-card" data-cat="text" onclick="openTool('txt-diff')">
+            <i data-lucide="file-diff"></i>
+            <h3>Comparar Textos</h3>
+        </div>
+
+        <div class="tool-card" data-cat="pdf" onclick="openTool('pdf-merge')">
+            <i data-lucide="layers"></i>
+            <h3>Combinar PDF</h3>
+        </div>
+
+        <div class="tool-card" data-cat="pdf" onclick="openTool('pdf-exif')">
+            <i data-lucide="shield-alert"></i>
+            <h3>Limpar Metadados</h3>
+        </div>
+
+        <div class="tool-card" data-cat="crypto" onclick="openTool('anon-data')">
+            <i data-lucide="eye-off"></i>
+            <h3>Anonimizar Dados</h3>
+        </div>
+
+        <div class="tool-card" data-cat="crypto" onclick="openTool('stegan')">
+            <i data-lucide="ghost"></i>
+            <h3>Esteganografia</h3>
+        </div>
+
+        <div class="tool-card" data-cat="video" onclick="openTool('vid-rec')">
+            <i data-lucide="videotape"></i>
+            <h3>Gravador de Tela</h3>
+        </div>
+
+        <div class="tool-card" data-cat="web" onclick="openTool('web-test')">
+            <i data-lucide="code-2"></i>
+            <h3>Testar HTML/CSS</h3>
+        </div>
+    </div>
+
+    <div id="toolView" style="display: none;">
+        <div class="back-link" onclick="closeTool()">
+            <i data-lucide="arrow-left"></i> Voltar para a Galeria
+        </div>
+        <h2 id="viewTitle">Ferramenta</h2>
+        <hr id="viewDivider" style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+        
+        <div id="viewContent" class="action-area"></div>
+    </div>
+</div>
+
+<script src="Index.js"></script>
+
+</body>
+</html>
