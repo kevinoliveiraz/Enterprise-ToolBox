@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 
     <link rel="stylesheet" href="Index.css">
 </head>
@@ -67,6 +68,11 @@
         <div class="tool-card" data-cat="video" onclick="openTool('vid-rec')">
             <i data-lucide="videotape"></i>
             <h3>Gravador de Tela</h3>
+        </div>
+
+        <div class="tool-card" data-cat="video" onclick="openTool('wav-to-mp3')">
+            <i data-lucide="music"></i>
+            <h3>WAV para MP3</h3>
         </div>
 
         <div class="tool-card" data-cat="web" onclick="openTool('web-test')">
