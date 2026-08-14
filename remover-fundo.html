@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Remova o fundo de imagens diretamente no navegador e baixe em PNG transparente na resolução original.">
+  <title>Remover Fundo — Enterprise ToolBox</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/remover-fundo.css">
+</head>
+<body>
+  <div class="page">
+    <header class="tool-topbar">
+      <a href="index.html" class="back-link" aria-label="Voltar para o início">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>ToolBox</span>
+      </a>
+
+      <div class="tool-heading">
+        <div class="tool-heading-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M7.5 16L11 12.5L13.5 15L16.5 11.5L20 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="9" cy="9" r="1.4" fill="currentColor"/>
+            <path d="M18.5 4.5L20.5 2.5M20.5 4.5L18.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Remover Fundo</h1>
+          <p>Remova o fundo com IA e baixe em PNG transparente</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="hero-copy" aria-labelledby="pageTitle">
+        <span class="eyebrow">100% no navegador</span>
+        <h2 id="pageTitle">Remova o fundo sem perder a resolução da imagem</h2>
+        <p>A imagem é processada localmente no seu navegador. O resultado é exportado em PNG transparente mantendo as dimensões originais.</p>
+      </section>
+
+      <section class="tool-card" aria-live="polite">
+        <div class="upload-state" id="uploadState">
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" hidden>
+
+          <button class="drop-zone" id="dropZone" type="button">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 16V4M12 4L7.5 8.5M12 4L16.5 8.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 14V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="drop-title">Selecione uma imagem</span>
+            <span class="drop-subtitle">ou arraste e solte aqui</span>
+            <span class="drop-formats">PNG, JPG ou WEBP</span>
+          </button>
+        </div>
+
+        <div class="processing-state" id="processingState" hidden>
+          <div class="processing-preview checkerboard">
+            <img id="processingImage" alt="Imagem sendo processada">
+            <div class="processing-overlay">
+              <span class="spinner" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="processing-info">
+            <h3>Removendo o fundo</h3>
+            <p id="statusText">Preparando o modelo de IA...</p>
+            <div class="progress-track" aria-hidden="true">
+              <span class="progress-bar" id="progressBar"></span>
+            </div>
+            <span class="processing-note">Na primeira execução, o navegador precisa baixar o modelo de IA.</span>
+          </div>
+        </div>
+
+        <div class="result-state" id="resultState" hidden>
+          <div class="result-grid">
+            <div class="result-preview checkerboard">
+              <img id="resultImage" alt="Imagem com fundo removido">
+            </div>
+
+            <div class="result-info">
+              <span class="success-badge">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12.5L9.5 17L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Fundo removido
+              </span>
+
+              <h3 id="resultName">imagem.png</h3>
+              <p id="resultMeta">PNG transparente</p>
+
+              <button class="btn btn-primary btn-large" id="downloadBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3V15M12 15L7 10M12 15L17 10M5 19H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Baixar PNG
+              </button>
+
+              <button class="btn btn-secondary" id="newImageBtn" type="button">Escolher outra imagem</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="error-state" id="errorState" hidden>
+          <div class="error-icon" aria-hidden="true">!</div>
+          <h3>Não foi possível remover o fundo</h3>
+          <p id="errorMessage">Ocorreu um erro ao processar a imagem.</p>
+          <button class="btn btn-primary" id="tryAgainBtn" type="button">Tentar outra imagem</button>
+        </div>
+      </section>
+
+      <p class="privacy-note">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3L19 6V11C19 15.3 16.2 19.2 12 21C7.8 19.2 5 15.3 5 11V6L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M9.5 12L11.2 13.7L14.8 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Sua imagem não é enviada para um servidor para ser processada.
+      </p>
+    </main>
+  </div>
+
+  <script type="module" src="scripts/remover-fundo.js"></script>
+</body>
+</html>

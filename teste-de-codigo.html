@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testador de Código — Enterprise ToolBox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/teste-de-codigo.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOPBAR -->
+  <header class="tool-topbar">
+    <a href="index.html" class="back-link" aria-label="Voltar para o início">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>ToolBox</span>
+    </a>
+
+    <div class="tool-heading">
+      <div class="tool-heading-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M8 8L3 12.5L8 17M16 8L21 12.5L16 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h1>Testador de Código</h1>
+        <p>HTML, CSS, JS, Python e PHP — escreva e teste na hora</p>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" id="downloadBtn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3V15M12 15L7 10M12 15L17 10M5 19H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Baixar
+      </button>
+    </div>
+  </header>
+
+  <!-- MODE TABS -->
+  <nav class="mode-tabs" id="modeTabs">
+    <button class="mode-tab active" data-mode="web">Web <span class="mode-tab-sub">HTML+CSS+JS</span></button>
+    <button class="mode-tab" data-mode="javascript">JavaScript</button>
+    <button class="mode-tab" data-mode="python">Python</button>
+    <button class="mode-tab" data-mode="php">PHP</button>
+  </nav>
+
+  <!-- WORKSPACE -->
+  <main class="workspace">
+
+    <!-- ===================== WEB MODE ===================== -->
+    <section class="mode-panel" data-mode-panel="web">
+      <div class="editors-col">
+        <div class="editor-tabs" id="webEditorTabs">
+          <button class="editor-tab active" data-lang="html">HTML</button>
+          <button class="editor-tab" data-lang="css">CSS</button>
+          <button class="editor-tab" data-lang="js">JS</button>
+        </div>
+        <div class="editor-wrap">
+          <div class="editor-gutter" id="webGutter">1</div>
+          <textarea class="editor-area" id="webEditor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+        <div class="editor-toolbar">
+          <button class="btn btn-primary" id="webRunBtn">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 4L19 12L6 20V4Z" fill="currentColor"/></svg>
+            Executar
+          </button>
+          <button class="btn" id="webExampleBtn">Exemplo</button>
+          <button class="btn btn-ghost" id="webClearBtn">Limpar</button>
+          <span class="hint">Ctrl+Enter para executar</span>
+        </div>
+      </div>
+
+      <div class="preview-col">
+        <div class="preview-header">Pré-visualização</div>
+        <iframe class="preview-frame" id="webPreview" sandbox="allow-scripts" title="Pré-visualização"></iframe>
+        <div class="console-header">
+          <span>Console</span>
+          <button class="btn-mini" id="webConsoleClear">Limpar</button>
+        </div>
+        <div class="console-output" id="webConsole"></div>
+      </div>
+    </section>
+
+    <!-- ===================== JAVASCRIPT MODE ===================== -->
+    <section class="mode-panel" data-mode-panel="javascript" hidden>
+      <div class="editors-col full">
+        <div class="editor-wrap">
+          <div class="editor-gutter" id="jsGutter">1</div>
+          <textarea class="editor-area" id="jsEditor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+        <div class="editor-toolbar">
+          <button class="btn btn-primary" id="jsRunBtn">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 4L19 12L6 20V4Z" fill="currentColor"/></svg>
+            Executar
+          </button>
+          <button class="btn" id="jsExampleBtn">Exemplo</button>
+          <button class="btn btn-ghost" id="jsClearBtn">Limpar</button>
+          <button class="btn btn-ghost" id="jsCopyBtn">Copiar</button>
+          <span class="hint">Ctrl+Enter para executar</span>
+        </div>
+      </div>
+      <div class="preview-col">
+        <div class="console-header">
+          <span>Saída do console</span>
+          <button class="btn-mini" id="jsConsoleClear">Limpar</button>
+        </div>
+        <div class="console-output tall" id="jsConsole"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PYTHON MODE ===================== -->
+    <section class="mode-panel" data-mode-panel="python" hidden>
+      <div class="editors-col full">
+        <div class="editor-wrap">
+          <div class="editor-gutter" id="pyGutter">1</div>
+          <textarea class="editor-area" id="pyEditor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+        <div class="editor-toolbar">
+          <button class="btn btn-primary" id="pyRunBtn">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 4L19 12L6 20V4Z" fill="currentColor"/></svg>
+            Executar
+          </button>
+          <button class="btn" id="pyExampleBtn">Exemplo</button>
+          <button class="btn btn-ghost" id="pyClearBtn">Limpar</button>
+          <button class="btn btn-ghost" id="pyCopyBtn">Copiar</button>
+          <span class="hint">Ctrl+Enter para executar · requer internet na primeira execução</span>
+        </div>
+      </div>
+      <div class="preview-col">
+        <div class="console-header">
+          <span>Saída</span>
+          <button class="btn-mini" id="pyConsoleClear">Limpar</button>
+        </div>
+        <div class="console-output tall" id="pyConsole">
+          <p class="console-placeholder">O resultado do seu código Python aparece aqui.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PHP MODE ===================== -->
+    <section class="mode-panel" data-mode-panel="php" hidden>
+      <div class="editors-col full">
+        <div class="editor-wrap">
+          <div class="editor-gutter" id="phpGutter">1</div>
+          <textarea class="editor-area" id="phpEditor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+        <div class="editor-toolbar">
+          <button class="btn" id="phpExampleBtn">Exemplo</button>
+          <button class="btn btn-ghost" id="phpClearBtn">Limpar</button>
+          <button class="btn btn-ghost" id="phpCopyBtn">Copiar</button>
+          <a class="btn btn-primary" id="phpSandboxLink" href="https://3v4l.org/" target="_blank" rel="noopener noreferrer">
+            Testar em 3v4l.org
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="preview-col">
+        <div class="console-header"><span>Sobre a execução de PHP</span></div>
+        <div class="console-output tall">
+          <p class="php-note">
+            PHP roda no servidor, não no navegador — por isso não é possível executá-lo diretamente aqui.
+            Este editor ajuda você a escrever e organizar o código com conforto. Para rodar de verdade,
+            clique em <strong>"Testar em 3v4l.org"</strong> e cole o código lá, ou use um ambiente local
+            como XAMPP, Laravel Herd ou <code>php -S localhost:8000</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="scripts/teste-de-codigo.js"></script>
+</body>
+</html>
