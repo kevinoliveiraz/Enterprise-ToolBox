@@ -1,0 +1,454 @@
+/* ============================================================
+   TESTE-DE-CODIGO.CSS
+   Arquivo autocontido — não depende do CSS do index.
+   Reaproveita a mesma identidade visual (roxo #5B3FE0) para
+   manter a coerência com o resto do Enterprise ToolBox.
+   ============================================================ */
+
+:root {
+  --bg: #F6F7FB;
+  --surface: #FFFFFF;
+  --surface-alt: #FBFAFE;
+  --border: #E7E8F1;
+  --border-soft: #EFEFF6;
+
+  --ink: #14161F;
+  --ink-soft: #565A70;
+  --ink-faint: #8A8DA0;
+
+  --accent: #5B3FE0;
+  --accent-dark: #4A2FC4;
+  --accent-soft: #EFEBFC;
+
+  --ring: rgba(91, 63, 224, 0.35);
+
+  --ok: #1F9D5C;
+  --warn: #B8791A;
+  --err: #D6435A;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 22, 31, 0.04);
+  --shadow-md: 0 4px 16px rgba(20, 22, 31, 0.07);
+
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+button { font-family: inherit; cursor: pointer; }
+a { text-decoration: none; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+svg { display: block; flex-shrink: 0; }
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+.tool-topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.back-link:hover { background: var(--surface-alt); color: var(--ink); }
+.back-link svg { width: 17px; height: 17px; }
+
+.tool-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 240px;
+}
+
+.tool-heading-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tool-heading-icon svg { width: 19px; height: 19px; }
+
+.tool-heading h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.tool-heading p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.topbar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+.btn:hover { background: #F0F0F7; color: var(--ink); }
+.btn svg { width: 15px; height: 15px; }
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.btn-ghost:hover { background: var(--surface-alt); }
+
+.btn-mini {
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+.btn-mini:hover { color: var(--ink); background: var(--border-soft); }
+
+/* ============================================================
+   MODE TABS
+   ============================================================ */
+
+.mode-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.mode-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+.mode-tab:hover { color: var(--ink-soft); }
+.mode-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.mode-tab-sub {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-faint);
+}
+
+/* ============================================================
+   WORKSPACE
+   ============================================================ */
+
+.workspace {
+  flex: 1;
+  padding: 20px 24px 28px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mode-panel {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.editors-col, .preview-col {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- EDITOR TABS (dentro do modo Web) ---------- */
+
+.editor-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 8px 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.editor-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-faint);
+  border-radius: 8px 8px 0 0;
+}
+.editor-tab:hover { color: var(--ink-soft); }
+.editor-tab.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ---------- EDITOR AREA ---------- */
+
+.editor-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 360px;
+  display: flex;
+  background: #14161F;
+}
+
+.editor-gutter {
+  flex-shrink: 0;
+  padding: 14px 10px 14px 0;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #4B4F63;
+  background: #14161F;
+  user-select: none;
+  min-width: 40px;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.editor-area {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  background: #14161F;
+  color: #E7E8F1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 14px 16px;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+}
+.editor-area::placeholder { color: #565A70; }
+.editor-area::selection { background: rgba(91, 63, 224, 0.45); }
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+}
+
+.hint {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+
+/* ---------- PREVIEW / CONSOLE ---------- */
+
+.preview-header {
+  padding: 11px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.preview-frame {
+  border: none;
+  width: 100%;
+  flex: 1.4;
+  min-height: 180px;
+  background: #fff;
+}
+
+.console-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--border-soft);
+  background: var(--surface-alt);
+}
+
+.console-output {
+  flex: 1;
+  min-height: 120px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+  background: var(--surface);
+}
+
+.console-output.tall { max-height: none; flex: 1; }
+
+.console-line {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border-soft);
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.console-line:last-child { border-bottom: none; }
+
+.console-line .tag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 4px;
+  height: fit-content;
+  margin-top: 2px;
+}
+.console-line.level-log .tag { background: var(--border-soft); color: var(--ink-faint); }
+.console-line.level-warn .tag { background: #FDF3E3; color: var(--warn); }
+.console-line.level-error .tag { background: #FDEBEC; color: var(--err); }
+.console-line.level-error { color: var(--err); }
+.console-line.level-result .tag { background: var(--accent-soft); color: var(--accent); }
+
+.console-placeholder {
+  color: var(--ink-faint);
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin: 0;
+}
+
+.php-note {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.php-note code {
+  background: var(--border-soft);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+/* ---------- PYTHON LOADING STATE ---------- */
+
+.py-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.py-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 980px) {
+  .mode-panel { grid-template-columns: 1fr; }
+  .editor-wrap { min-height: 300px; }
+  .preview-frame { min-height: 220px; }
+}
+
+@media (max-width: 640px) {
+  .tool-topbar { padding: 12px 16px; }
+  .tool-heading p { display: none; }
+  .workspace { padding: 16px; }
+  .hint { display: none; }
+  .mode-tabs { padding: 10px 16px 0; }
+}
