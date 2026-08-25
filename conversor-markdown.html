@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor Markdown — Enterprise ToolBox</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/conversor-markdown.css">
+
+  <!-- Bibliotecas client-side -->
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turndown@7.2.0/dist/turndown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="tool-topbar">
+    <a href="index.html" class="back-link" aria-label="Voltar para o início">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>ToolBox</span>
+    </a>
+
+    <div class="tool-heading">
+      <div class="tool-heading-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M5 4H15L19 8V20H5V4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M15 4V8H19M8 12H16M8 15H14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Conversor Markdown</h1>
+        <p>Documentos, dados, web, imagens, legendas e texto para .md</p>
+      </div>
+    </div>
+
+    <div class="topbar-badge">
+      <span class="status-dot"></span>
+      Processamento local
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <section class="hero">
+      <span class="eyebrow">100% no navegador</span>
+      <h2>Transforme seu conteúdo em Markdown</h2>
+      <p>Escolha um arquivo, cole uma URL ou envie texto. O resultado fica pronto para copiar ou baixar em <strong>.md</strong>.</p>
+    </section>
+
+    <section class="converter-card">
+
+      <div class="source-tabs" role="tablist" aria-label="Tipo de entrada">
+        <button class="source-tab active" data-source="file" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4L17 9M5 14V20H19V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Arquivo
+        </button>
+        <button class="source-tab" data-source="url" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M10 13.5L14 9.5M8.5 15.5L6.5 17.5A3.54 3.54 0 1 1 1.5 12.5L5 9A3.54 3.54 0 0 1 10 9M15.5 8.5L17.5 6.5A3.54 3.54 0 1 1 22.5 11.5L19 15A3.54 3.54 0 0 1 14 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          URL
+        </button>
+        <button class="source-tab" data-source="text" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 5H19M5 9H15M5 13H19M5 17H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Texto
+        </button>
+      </div>
+
+      <!-- ARQUIVO -->
+      <section class="source-panel active" id="filePanel" data-source-panel="file">
+        <input
+          id="fileInput"
+          type="file"
+          hidden
+          accept=".pdf,.docx,.rtf,.txt,.csv,.xlsx,.xls,.json,.xml,.html,.htm,.png,.jpg,.jpeg,.webp,.srt,.vtt,.md,.markdown"
+        >
+
+        <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Selecionar arquivo">
+          <div class="drop-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4L7 9M12 4L17 9M5 14V20H19V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Selecione um arquivo</h3>
+          <p>ou arraste e solte aqui</p>
+          <span>PDF, DOCX, RTF, TXT, CSV, XLSX, JSON, XML, HTML, imagens, SRT, VTT ou MD</span>
+        </div>
+
+        <div class="selected-file" id="selectedFile" hidden>
+          <div class="file-icon" id="fileTypeBadge">MD</div>
+          <div class="file-info">
+            <strong id="fileName"></strong>
+            <span id="fileMeta"></span>
+          </div>
+          <button class="icon-button" id="removeFileBtn" type="button" aria-label="Remover arquivo">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <button class="btn btn-primary btn-wide" id="convertFileBtn" type="button" disabled>
+          Converter para Markdown
+        </button>
+      </section>
+
+      <!-- URL -->
+      <section class="source-panel" id="urlPanel" data-source-panel="url" hidden>
+        <label class="field-label" for="urlInput">Página web / URL</label>
+        <div class="url-row">
+          <input
+            class="text-input"
+            id="urlInput"
+            type="url"
+            inputmode="url"
+            placeholder="https://exemplo.com/artigo"
+            autocomplete="url"
+          >
+          <button class="btn btn-primary" id="convertUrlBtn" type="button">Converter</button>
+        </div>
+        <p class="field-help">
+          A página precisa permitir leitura direta pelo navegador. Alguns sites bloqueiam esse acesso por CORS.
+        </p>
+      </section>
+
+      <!-- TEXTO -->
+      <section class="source-panel" id="textPanel" data-source-panel="text" hidden>
+        <div class="text-mode-row">
+          <label class="radio-pill">
+            <input type="radio" name="textMode" value="plain" checked>
+            <span>Texto colado</span>
+          </label>
+          <label class="radio-pill">
+            <input type="radio" name="textMode" value="markdown">
+            <span>Markdown existente</span>
+          </label>
+        </div>
+
+        <label class="field-label" for="textInput">Conteúdo</label>
+        <textarea
+          class="text-area"
+          id="textInput"
+          placeholder="Cole aqui o texto que deseja transformar em Markdown..."
+          spellcheck="true"
+        ></textarea>
+
+        <button class="btn btn-primary btn-wide" id="convertTextBtn" type="button">
+          Converter para Markdown
+        </button>
+      </section>
+
+      <div class="processing-box" id="processingBox" hidden>
+        <div class="spinner"></div>
+        <div class="processing-copy">
+          <strong id="processingTitle">Convertendo...</strong>
+          <span id="processingStatus">Preparando conteúdo</span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBox" hidden>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 8V13M12 16.5V16.51M10.3 4.8L2.6 18.1A2 2 0 0 0 4.33 21H19.67A2 2 0 0 0 21.4 18.1L13.7 4.8A1.96 1.96 0 0 0 10.3 4.8Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <strong>Não foi possível converter</strong>
+          <p id="errorMessage"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTADO -->
+    <section class="result-card" id="resultCard" hidden>
+      <div class="result-header">
+        <div>
+          <span class="result-kicker">Resultado</span>
+          <h3 id="resultTitle">Markdown gerado</h3>
+          <p id="resultDescription"></p>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn" id="copyBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M8 8H18V18H8V8ZM6 16H4V4H16V6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            Copiar
+          </button>
+          <button class="btn btn-primary" id="downloadBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3V15M12 15L7 10M12 15L17 10M5 19H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Baixar .md
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-toolbar">
+        <span>Markdown</span>
+        <span id="charCount">0 caracteres</span>
+      </div>
+
+      <textarea class="markdown-output" id="markdownOutput" spellcheck="false"></textarea>
+    </section>
+
+    <section class="formats-card">
+      <div class="format-group">
+        <span>DOCUMENTOS</span>
+        <div><b>PDF</b><b>DOCX</b><b>RTF</b><b>TXT</b></div>
+      </div>
+      <div class="format-group">
+        <span>DADOS</span>
+        <div><b>CSV</b><b>XLSX</b><b>JSON</b><b>XML</b></div>
+      </div>
+      <div class="format-group">
+        <span>WEB</span>
+        <div><b>HTML</b><b>URL</b></div>
+      </div>
+      <div class="format-group">
+        <span>IMAGENS</span>
+        <div><b>PNG</b><b>JPG</b><b>WEBP</b></div>
+      </div>
+      <div class="format-group">
+        <span>LEGENDAS</span>
+        <div><b>SRT</b><b>VTT</b></div>
+      </div>
+      <div class="format-group">
+        <span>TEXTO</span>
+        <div><b>Texto</b><b>MD</b></div>
+      </div>
+    </section>
+
+    <p class="privacy-note">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L19 6V11C19 15.3 16.4 19.1 12 21C7.6 19.1 5 15.3 5 11V6L12 3Z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12L11 13.5L14.5 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Arquivos são processados no seu navegador. URLs são acessadas diretamente pelo navegador e dependem das permissões do site de origem.
+    </p>
+
+  </main>
+</div>
+
+<script src="scripts/conversor-markdown.js"></script>
+</body>
+</html>

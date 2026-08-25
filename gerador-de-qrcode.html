@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5b3fe0">
+
+  <title>Gerador de QR Code — Enterprise ToolBox</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles/gerador-de-qrcode.css">
+
+  <!-- Biblioteca client-side para geração de QR Code -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header class="tool-topbar">
+    <a href="index.html" class="back-link" aria-label="Voltar para o início">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M15 5L8 12L15 19"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span>ToolBox</span>
+    </a>
+
+    <div class="tool-heading">
+      <div class="tool-heading-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+          <rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+          <rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M14 14H16V16H14V14ZM18 14H20V18H18V14ZM14 18H18V20H14V18Z" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <div>
+        <h1>Gerador de QR Code</h1>
+        <p>Crie e baixe QR Codes personalizados</p>
+      </div>
+    </div>
+
+    <div class="topbar-badge">
+      <span class="status-dot"></span>
+      Processamento local
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <section class="hero">
+      <span class="eyebrow">QR Code</span>
+      <h2>Transforme texto ou links em QR Code</h2>
+      <p>
+        Digite qualquer conteúdo, personalize o tamanho e as cores e baixe
+        o resultado em PNG.
+      </p>
+    </section>
+
+    <section class="generator-layout">
+
+      <div class="settings-card">
+
+        <div class="field-group">
+          <label for="qrContent">Conteúdo</label>
+
+          <textarea
+            id="qrContent"
+            class="content-input"
+            placeholder="https://exemplo.com"
+            maxlength="4000"
+            spellcheck="false"
+          ></textarea>
+
+          <div class="input-meta">
+            <span>URL, texto, telefone, e-mail ou qualquer conteúdo</span>
+            <span id="characterCounter">0 / 4000</span>
+          </div>
+        </div>
+
+        <div class="options-grid">
+
+          <div class="field-group">
+            <label for="qrSize">Resolução</label>
+            <select id="qrSize" class="select-input">
+              <option value="256">256 × 256 px</option>
+              <option value="512" selected>512 × 512 px</option>
+              <option value="1024">1024 × 1024 px</option>
+              <option value="2048">2048 × 2048 px</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="errorCorrection">Correção de erro</label>
+            <select id="errorCorrection" class="select-input">
+              <option value="L">Baixa</option>
+              <option value="M" selected>Média</option>
+              <option value="Q">Alta</option>
+              <option value="H">Máxima</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="qrMargin">Margem</label>
+            <select id="qrMargin" class="select-input">
+              <option value="0">Sem margem</option>
+              <option value="1">Pequena</option>
+              <option value="2" selected>Média</option>
+              <option value="4">Grande</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="fileName">Nome do arquivo</label>
+            <div class="filename-field">
+              <input
+                id="fileName"
+                class="text-input"
+                type="text"
+                value="qrcode"
+                maxlength="80"
+                autocomplete="off"
+              >
+              <span>.png</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="color-section">
+          <div class="section-title">
+            <div>
+              <strong>Cores</strong>
+              <span>Use alto contraste para facilitar a leitura.</span>
+            </div>
+
+            <button id="resetColorsBtn" class="text-button" type="button">
+              Restaurar
+            </button>
+          </div>
+
+          <div class="color-grid">
+
+            <label class="color-control">
+              <span>QR Code</span>
+              <div class="color-input-wrap">
+                <input id="darkColor" type="color" value="#111111">
+                <code id="darkColorValue">#111111</code>
+              </div>
+            </label>
+
+            <label class="color-control">
+              <span>Fundo</span>
+              <div class="color-input-wrap">
+                <input id="lightColor" type="color" value="#ffffff">
+                <code id="lightColorValue">#FFFFFF</code>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+        <div id="errorBox" class="error-box" hidden>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 8V13M12 16.5V16.51M10.3 4.8L2.6 18.1A2 2 0 0 0 4.33 21H19.67A2 2 0 0 0 21.4 18.1L13.7 4.8A1.96 1.96 0 0 0 10.3 4.8Z"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div>
+            <strong>Não foi possível gerar o QR Code</strong>
+            <p id="errorMessage"></p>
+          </div>
+        </div>
+
+        <button id="generateBtn" class="primary-button" type="button">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+            <rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+            <rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M14 14H16V16H14V14ZM18 14H20V18H18V14ZM14 18H18V20H14V18Z" fill="currentColor"/>
+          </svg>
+
+          Gerar QR Code
+        </button>
+
+      </div>
+
+      <aside class="preview-card">
+
+        <div class="preview-header">
+          <div>
+            <span>Pré-visualização</span>
+            <strong id="previewResolution">512 × 512 px</strong>
+          </div>
+
+          <span id="previewStatus" class="preview-status">
+            Aguardando conteúdo
+          </span>
+        </div>
+
+        <div class="qr-stage" id="qrStage">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M14 14H16V16H14V14ZM18 14H20V18H18V14ZM14 18H18V20H14V18Z" fill="currentColor"/>
+              </svg>
+            </div>
+
+            <strong>Seu QR Code aparecerá aqui</strong>
+            <span>Digite um conteúdo e clique em gerar.</span>
+          </div>
+
+          <div id="qrPreviewWrap" class="qr-preview-wrap" hidden>
+            <canvas id="qrCanvas"></canvas>
+          </div>
+        </div>
+
+        <div id="resultActions" class="result-actions" hidden>
+          <button id="downloadBtn" class="download-button" type="button">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 3V15M12 15L7 10M12 15L17 10M5 19H19"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Baixar PNG
+          </button>
+
+          <button id="clearBtn" class="secondary-button" type="button">
+            Limpar
+          </button>
+        </div>
+
+        <div class="security-note">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 3L19 6V11C19 15.3 16.4 19.1 12 21C7.6 19.1 5 15.3 5 11V6L12 3Z"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+            <path
+              d="M9.5 12L11 13.5L14.5 10"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          Gerado diretamente no seu navegador.
+        </div>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script src="scripts/gerador-de-qrcode.js"></script>
+</body>
+</html>
